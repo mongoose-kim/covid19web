@@ -8,9 +8,9 @@
 
     <bean id="dataSource" class="org.springframework.jdbc.datasource.SimpleDriverDataSource">
         <property name="driverClass" value="org.postgresql.Driver" />
-        <property name="url" value="jdbc:postgresql://211.41.186.138:9432/aviation_safety" />
+        <property name="url" value="jdbc:postgresql://211.41.186.111:5432/aviation_safety" />
         <property name="username" value="ipp" />
-        <property name="password" value="ipp1234" />
+        <property name="password" value="ipp1234!" />
     </bean>
 
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
