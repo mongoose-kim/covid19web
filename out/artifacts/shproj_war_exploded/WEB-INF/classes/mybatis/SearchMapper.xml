@@ -8,7 +8,10 @@
     <select id="getCarTriageList" parameterType="String" resultType="com.ddwuproj.dto.CarTriage">
         select *
         from "CarTriage"
-        where sido=#{arg0} and gungu LIKE CONCAT('%', #{arg1}, '%')
+        where sido=#{arg0}
+        <if test='arg1 != "전체"'>
+            and gungu LIKE CONCAT('%', #{arg1}, '%')
+        </if>
     </select>
 
     <select id="getAllClinic" resultType="com.ddwuproj.dto.Clinic">
@@ -18,7 +21,10 @@
     <select id="getClinicList" parameterType="String" resultType="com.ddwuproj.dto.Clinic">
         select *
         from "Clinic"
-        where sido=#{arg0} and gungu LIKE CONCAT('%', #{arg1}, '%')
+        where sido=#{arg0}
+        <if test='arg1 != "전체"'>
+            and gungu LIKE CONCAT('%', #{arg1}, '%')
+        </if>
     </select>
 
     <select id="getAllHospital" resultType="com.ddwuproj.dto.Hospital">
@@ -28,14 +34,10 @@
     <select id="getHospitalList" parameterType="String" resultType="com.ddwuproj.dto.Hospital">
         select *
         from "Hospital"
-        <choose>
-            <when test='arg0.equals("전체")'>
-                where sido=#{arg0}
-            </when>
-            <otherwise>
-                where sido=#{arg0} and gungu LIKE CONCAT('%', #{arg1}, '%')
-            </otherwise>
-        </choose>
+        where sido=#{arg0}
+            <if test='arg1 != "전체"'>
+               and gungu LIKE CONCAT('%', #{arg1}, '%')
+            </if>
     </select>
 
     <select id="getAllTriage" resultType="com.ddwuproj.dto.Triage">
@@ -45,7 +47,10 @@
     <select id="getTriageList" parameterType="String" resultType="com.ddwuproj.dto.Triage">
         select *
         from "Triage"
-        where sido=#{arg0} and gungu LIKE CONCAT('%', #{arg1}, '%')
+        where sido=#{arg0}
+        <if test='arg1 != "전체"'>
+            and gungu LIKE CONCAT('%', #{arg1}, '%')
+        </if>
     </select>
 
 

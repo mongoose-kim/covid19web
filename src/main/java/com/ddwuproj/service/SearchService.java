@@ -18,17 +18,11 @@ public class SearchService {
     public List<CarTriage> getAllCarTriage(){
         return searchMapper.getAllCarTriage();
     }
-    public List<CarTriage> getCarTriageSidoList(String sido){
-        return searchMapper.getCarTriageSidoList(sido);
-    }
     public List<CarTriage> getCarTriageList(String sido, String gungu){
         return searchMapper.getCarTriageList(sido, gungu);
     }
     public List<Clinic> getAllClinic(){
         return searchMapper.getAllClinic();
-    }
-    public List<Clinic> getClinicSidoList(String sido){
-        return searchMapper.getClinicSidoList(sido);
     }
     public List<Clinic> getClinicList(String sido, String gungu){
         return searchMapper.getClinicList(sido, gungu);
@@ -36,17 +30,11 @@ public class SearchService {
     public List<Hospital> getAllHospital(){
         return searchMapper.getAllHospital();
     }
-    public List<Hospital> getHospitalSidoList(String sido){
-        return searchMapper.getHospitalSidoList(sido);
-    }
     public List<Hospital> getHospitalList(String sido, String gungu){
         return searchMapper.getHospitalList(sido, gungu);
     }
     public List<Triage> getAllTriage(){
         return searchMapper.getAllTriage();
-    }
-    public List<Triage> getTriageSidoList(String sido){
-        return searchMapper.getTriageSidoList(sido);
     }
     public List<Triage> getTriageList(String sido, String gungu){
         return searchMapper.getTriageList(sido, gungu);

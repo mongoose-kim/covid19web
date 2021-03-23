@@ -27,6 +27,11 @@ public class ViewController {
         return "index";
     }
 
+    @GetMapping("/bs")
+    public String main2(){
+        return "main";
+    }
+
     @GetMapping("/clinic")
     public String clinic(ModelMap model, @RequestParam(required = false, defaultValue = "")String sido, @RequestParam(required = false, defaultValue = "")String gungu){
         List<Clinic> list;
@@ -34,12 +39,7 @@ public class ViewController {
             list = searchService.getAllClinic();
         }
         else {
-            if(gungu.equals("전체")) {
-                list = searchService.getClinicSidoList(sido);
-            }
-            else {
-                list = searchService.getClinicList(sido, gungu);
-            }
+            list = searchService.getClinicList(sido, gungu);
         }
         model.addAttribute("list", list);
         return "index";
@@ -78,12 +78,7 @@ public class ViewController {
             list = searchService.getAllCarTriage();
         }
         else {
-            if(gungu.equals("전체")) {
-                list = searchService.getCarTriageSidoList(sido);
-            }
-            else {
-                list = searchService.getCarTriageList(sido, gungu);
-            }
+            list = searchService.getCarTriageList(sido, gungu);
         }
         model.addAttribute("list", list);
         return "index";

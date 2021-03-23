@@ -53,6 +53,146 @@
       });
     });
   </script>
+  <script type="text/javascript">
+    var category = 0;
+    $(document).ready(function(){
+      $('#hosBtn').on('click', function(){
+        category = 1;
+        var params = "?sido=전체";
+
+        $.ajax({
+          url: "co/hos"+params,
+          type: "GET",
+          contentType: "application/json; charset=utf-8;",
+          dataType: "json",
+          async:false,
+          success: function(data){
+            resultHtml(data);
+          },
+          error: function(){
+            alert("restController err");
+          }
+        });
+      });
+    });
+
+    $(document).ready(function(){
+      $('#cliBtn').on('click', function(){
+        var params = "?sido=전체";
+        category = 2;
+
+        $.ajax({
+          url: "co/cli"+params,
+          type: "GET",
+          contentType: "application/json; charset=utf-8;",
+          dataType: "json",
+          async:false,
+          success: function(data){
+            resultHtml(data);
+          },
+          error: function(){
+            alert("restController err");
+          }
+        });
+      });
+    });
+
+    $(document).ready(function(){
+      $('#triBtn').on('click', function(){
+        var params = "?sido=전체";
+        category = 3;
+
+        $.ajax({
+          url: "co/tri"+params,
+          type: "GET",
+          contentType: "application/json; charset=utf-8;",
+          dataType: "json",
+          async:false,
+          success: function(data){
+            resultHtml(data);
+          },
+          error: function(){
+            alert("restController err");
+          }
+        });
+      });
+    });
+
+    $(document).ready(function(){
+      $('#carBtn').on('click', function(){
+        var params = "?sido=전체";
+        category = 4;
+
+        $.ajax({
+          url: "co/car"+params,
+          type: "GET",
+          contentType: "application/json; charset=utf-8;",
+          dataType: "json",
+          async:false,
+          success: function(data){
+            resultHtml(data);
+          },
+          error: function(){
+            alert("restController err");
+          }
+        });
+      });
+    });
+
+    $(document).ready(function(){
+    $('#searchBtn').on('click', function(){
+      var params = "?sido=" + $("#sido1 option:selected").val() +
+              "&gungu=" + $("#gugun1 option:selected").val();
+      var cate;
+      if(category == 1){cate = "hos";}
+      else if(category == 2){cate = "cli";}
+      else if(category == 3){cate = "tri";}
+      else if(category == 4){cate = "car";}
+      $.ajax({
+        url: "co/" + cate + params,
+        type: "GET",
+        contentType: "application/json; charset=utf-8;",
+        dataType: "json",
+        async:false,
+        success: function(data){
+          resultHtml(data);
+          },
+        error: function(){
+          alert("restController err");
+        }
+      });
+    });
+      });
+
+    function resultHtml(data){
+      $(".wrap").empty();
+      var result = '';
+      result += data.result[0] + ' ' + data.result[1] + ' '
+      result += '검색결과입니다.<br>'
+      if(data.list[0] == null){
+        result += '<br> 조회된 결과가 없습니다.   <br>'
+      }
+      else {
+        result += '<div style="float: left; overflow:auto; width:780px; height:350px;">'
+        result += '<table class="table table-hover">'
+        result += '<thead><tr><th>이름</th><th>시도</th><th>시군구</th><th>전화번호</th></tr></thead>'
+        result += '<tbody>'
+        $.each(data.list, function (index, item) {
+          result += '<tr class="table-light">'
+          result += '<th scope="row">' + item.name + '</th>';
+          result += '<td> ' + item.sido + '</td>';
+          result += '<td> ' + item.gungu + '</td>';
+          result += '<td> ' + item.tel + '</td>';
+          result += '</tr>'
+        });
+        result += '</tbody>'
+        result += '</table>'
+        result += '</div>'
+      }
+      $(".wrap").append(result);
+    }
+
+  </script>
 </head>
 <body>
 
@@ -61,48 +201,35 @@
   <a class="navbar-brand" href="/">코로나19 의료기관 안내</a>
 
   <div>
-    <a href="/hospital?sido=전체"><button type="button" class="btn btn-outline-primary">국민안심병원
-    </button></a>
-    <a href="/clinic?sido=전체"><button type="button" class="btn btn-outline-primary">호흡기전담클리닉
-    </button></a>
-    <a href="/triage?sido=전체"><button type="button" class="btn btn-outline-primary">선별진료소
-    </button></a>
-    <a href="/cartriage?sido=전체"><button type="button" class="btn btn-outline-primary">자동차선별진료소
-    </button></a>
+    <button id="hosBtn" type="button" class="btn btn-outline-primary">국민안심병원
+    </button>
+    <button id="cliBtn" type="button" class="btn btn-outline-primary">호흡기전담클리닉
+    </button>
+    <button id="triBtn" type="button" class="btn btn-outline-primary">선별진료소
+    </button>
+    <button id="carBtn" type="button" class="btn btn-outline-primary">자동차선별진료소
+    </button>
   </div>
 
   <br>
-  <form>
+
     <select name="sido" id="sido1">
     </select>
     <select name="gungu" id="gugun1"></select>
     <br>
-    <button class="btn btn-secondary my-2 my-sm-0" id="searchBtn" type="submit">Search</button>
-  </form>
+    <button class="btn btn-secondary my-2 my-sm-0" id="searchBtn">Search</button>
+
 
 </div>
 </div>
 </div>
 </div>
-<%
-  if(request.getParameter("sido") != null){
-    String selsido = request.getParameter("sido");
-%>
-<%=selsido%>
-<%
-  }
-  if(request.getParameter("gungu") != null) {
-    String selgungu = request.getParameter("gungu");
-%>
-<%=selgungu%>
-<%
-  }
-%>
-검색결과입니다.
 <br>
+
+<div class="wrap"></div>
+
 <c:set var="fplat" value="${list[0].lat}"/>
 <c:set var="fplng" value="${list[0].lng}"/>
-<div style="float: left; overflow:auto; width:780px; height:350px;">
   <table class="table table-hover">
     <tbody>
     <c:forEach var="list" items="${list}">
@@ -115,7 +242,6 @@
     </c:forEach>
     </tbody>
   </table>
-</div>
 <div style="float: left;">
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css"
         integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
@@ -137,8 +263,13 @@
     var mymap = L.map('mapid').setView(first, firstzoom);
 
     function onListClick(mylat, mylng) {
+      alert("dd");
       first = { lat: mylat, lng: mylng };
       mymap = L.map('mapid').setView(first, firstzoom);
+      L.map('mapid').popupopen()
+                    .autopanstart()
+                    .zoomlevelsChange(7)
+                    .addTo(mymap);
     }
     function plusZoom(){
       firstzoom = 16;
