@@ -4,10 +4,10 @@
     <select id="getCarTriageList" parameterType="String" resultType="com.ddwuproj.dto.CarTriage">
         select *
         from "CarTriage"
-        <if test='arg0 != null'>
+        <if test='arg0 != "전체"'>
         where sido=#{arg0}
         </if>
-        <if test='arg1 != "전체"'>
+        <if test='arg1 != "" and arg1 != "전체"'>
             and gungu LIKE CONCAT('%', #{arg1}, '%')
         </if>
     </select>
@@ -15,32 +15,42 @@
     <select id="getClinicList" parameterType="String" resultType="com.ddwuproj.dto.Clinic">
         select *
         from "Clinic"
-        <if test='arg0 != null'>
-            where sido=#{arg0}
+        <where>
+        <if test='arg0 != "전체"'>
+            and sido=#{arg0}
         </if>
-        <if test='arg1 != "전체"'>
+        <if test='arg1 != "" and arg1 != "전체"'>
             and gungu LIKE CONCAT('%', #{arg1}, '%')
         </if>
+        <if test='arg2 != "" and arg2 != "전체"'>
+            and collect LIKE CONCAT('%', #{arg2}, '%')
+        </if>
+        </where>
     </select>
 
     <select id="getHospitalList" parameterType="String" resultType="com.ddwuproj.dto.Hospital">
         select *
         from "Hospital"
-        <if test='arg0 != null'>
-            where sido=#{arg0}
+        <where>
+        <if test='arg0 != "전체"'>
+            and sido=#{arg0}
         </if>
-        <if test='arg1 != "전체"'>
+        <if test='arg1 != "" and arg1 != "전체"'>
           and gungu LIKE CONCAT('%', #{arg1}, '%')
         </if>
+        <if test='arg2 != "" and arg2 != "전체"'>
+            and type LIKE CONCAT('%', #{arg2}, '%')
+        </if>
+        </where>
     </select>
 
     <select id="getTriageList" parameterType="String" resultType="com.ddwuproj.dto.Triage">
         select *
         from "Triage"
-        <if test='arg0 != null'>
+        <if test='arg0 != "전체"'>
             where sido=#{arg0}
         </if>
-        <if test='arg1 != "전체"'>
+        <if test='arg1 != "" and arg1 != "전체"'>
             and gungu LIKE CONCAT('%', #{arg1}, '%')
         </if>
     </select>

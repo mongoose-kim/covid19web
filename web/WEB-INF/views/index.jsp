@@ -9,17 +9,17 @@
         crossorigin=""/>
   <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootswatch/4.5.2/minty/bootstrap.min.css" integrity="sha384-H4X+4tKc7b8s4GoMrylmy2ssQYpDHoqzPa9aKXbDwPoPUA3Ra8PA5dGzijN+ePnH" crossorigin="anonymous">
-  <style>
-    #mapid {
-
-    }
-
-  </style>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css"
+        integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
+        crossorigin=""/>
+  <script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js"
+          integrity="sha512-GffPMF3RvMeYyc1LWMHtK8EbPv0iNZ8/oTtHPx9/cc2ILxQ+u905qIwdpULaqDkyBKgOaB57QTMg7ztg8Jm2Og=="
+          crossorigin=""></script>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <script src="../../resource/js/indexpage.js"></script>
 </head>
 <body>
-
+<script src="../../resource/js/indexpage.js"></script>
+<script src="../../resource/js/map.js"></script>
 
 <div class="bs-component">
   <a class="navbar-brand" href="/">코로나19 의료기관 안내</a>
@@ -37,9 +37,27 @@
 
   <br>
 
+  <div id="select">
     <select name="sido" id="sido1">
     </select>
     <select name="gungu" id="gugun1"></select>
+  </div>
+  <div id="hostype">
+    유형
+    <select name="type" id="type">
+      <option>전체</option>
+      <option value="A">외래진료</option>
+      <option value="B">외래진료 및 입원</option>
+    </select>
+  </div>
+  <div id="clitype">
+    코로나 검사 가능 여부
+    <select name="collect" id="collect">
+      <option>전체</option>
+      <option value="○">가능</option>
+      <option value="X">불가</option>
+    </select>
+  </div>
     <br>
     <button class="btn btn-secondary my-2 my-sm-0" id="searchBtn">Search</button>
 
@@ -53,12 +71,7 @@
 <div class="wrap"></div>
 
 <div style="float: left;">
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css"
-        integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
-        crossorigin=""/>
-  <script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js"
-          integrity="sha512-GffPMF3RvMeYyc1LWMHtK8EbPv0iNZ8/oTtHPx9/cc2ILxQ+u905qIwdpULaqDkyBKgOaB57QTMg7ztg8Jm2Og=="
-          crossorigin=""></script>
+
 
   <div id="mapid" style="width: 1000px; height: 750px;"></div>
 </div>

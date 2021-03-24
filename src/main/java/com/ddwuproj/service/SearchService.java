@@ -18,11 +18,11 @@ public class SearchService {
     public List<CarTriage> getCarTriageList(String sido, String gungu){
         return searchMapper.getCarTriageList(sido, gungu);
     }
-    public List<Clinic> getClinicList(String sido, String gungu){
-        return searchMapper.getClinicList(sido, gungu);
+    public List<Clinic> getClinicList(String sido, String gungu, String collect){
+        return searchMapper.getClinicList(sido, gungu, collect);
     }
-    public List<Hospital> getHospitalList(String sido, String gungu){
-        return searchMapper.getHospitalList(sido, gungu);
+    public List<Hospital> getHospitalList(String sido, String gungu, String type){
+        return searchMapper.getHospitalList(sido, gungu, type);
     }
     public List<Triage> getTriageList(String sido, String gungu){
         return searchMapper.getTriageList(sido, gungu);

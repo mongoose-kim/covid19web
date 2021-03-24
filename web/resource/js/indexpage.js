@@ -1,5 +1,6 @@
 
 $('document').ready(function() {
+
     var area0 = ["전체","서울","인천","대전","광주","대구","울산","부산","경기","강원","충북","충남","전북","전남","경북","경남","제주"];
     var area1 = ["전체","강남구","강동구","강북구","강서구","관악구","광진구","구로구","금천구","노원구","도봉구","동대문구","동작구","마포구","서대문구","서초구","성동구","성북구","송파구","양천구","영등포구","용산구","은평구","종로구","중구","중랑구"];
     var area2 = ["전체","계양구","남구","남동구","동구","부평구","서구","연수구","중구","강화군","옹진군"];
@@ -33,44 +34,64 @@ $('document').ready(function() {
 });
 }
 });
-});
+        var category = 0;
+        if(category == 0) {
+            $("#sido1").hide();
+            $("#gugun1").hide();
+            $("#hostype").hide();
+            $("#clitype").hide();
+            $("#searchBtn").hide();
+        }
 
-    var category = 0;
-    $(document).ready(function(){
+        function selshow(){
+            $("#sido1").show();
+            $("#gugun1").show();
+            $("#searchBtn").show();
+        }
     $('#hosBtn').on('click', function(){
+        selshow();
         category = 1;
+        $("#hostype").show();
+        $("#clitype").hide();
         changeCate(1);
     });
-});
 
-    $(document).ready(function(){
     $('#cliBtn').on('click', function(){
+        selshow();
+        $("#hostype").hide();
+        $("#clitype").show();
         category = 2;
         changeCate(category);
     });
-});
 
-    $(document).ready(function(){
     $('#triBtn').on('click', function(){
+        selshow();
+        $("#hostype").hide();
+        $("#clitype").hide();
         category = 3;
         changeCate(category);
     });
-});
 
-    $(document).ready(function(){
     $('#carBtn').on('click', function(){
+        selshow();
+        $("#hostype").hide();
+        $("#clitype").hide();
         category = 4;
         changeCate(category);
     });
-});
 
-    $(document).ready(function(){
     $('#searchBtn').on('click', function(){
         var params = "?sido=" + $("#sido1 option:selected").val() +
             "&gungu=" + $("#gugun1 option:selected").val();
         var cate;
-        if(category == 1){cate = "hos";}
-        else if(category == 2){cate = "cli";}
+        if(category == 1){
+            cate = "hos";
+            params += "&type=" + $("#type option:selected").val();
+        }
+        else if(category == 2){
+            cate = "cli";
+            params += "&collect=" + $("#collect option:selected").val();
+        }
         else if(category == 3){cate = "tri";}
         else if(category == 4){cate = "car";}
         $.ajax({
@@ -87,6 +108,8 @@ $('document').ready(function() {
             }
         });
     });
+
+
 });
 
     function setClassName(id) {
@@ -99,6 +122,7 @@ $('document').ready(function() {
 }
 
     function changeCate(c){
+        resetMap();
     $("#sido1 option:eq(0)").prop("selected", true);
     var idx = $('option:selected',$(this)).index();
     $("option",$("#gugun1")).remove();
@@ -126,7 +150,8 @@ $('document').ready(function() {
     dataType: "json",
     async:false,
     success: function(data){
-    resultHtml(data);
+        resultHtml(data);
+        sendMap(data.list);
 },
     error: function(){
     alert("Error");
@@ -137,18 +162,20 @@ $('document').ready(function() {
     function resultHtml(data){
     $(".wrap").empty();
     var result = '';
-    result += '<h3 class="mb-3 side-title">' + data.result[0] + ' ' + data.result[1] + ' '
-    result += '검색결과입니다.</h3> <br>'
+    result += data.result[0] + ' ' + data.result[1] + ' '
+    result += '검색결과입니다.<br>'
+    result += data.list.length + '건이 조회되었습니다<br>'
     if(data.list[0] == null){
     result += '<br> 조회된 결과가 없습니다.   <br>'
 }
     else {
     result += '<div style="overflow:auto; width:780px; height:350px;">'
     result += '<table class="table table-hover">'
-    result += '<thead><tr><th>이름</th><th>시도</th><th>시군구</th><th>전화번호</th></tr></thead>'
-    result += '<tbody>'
+    result += '<thead style="position: sticky; top: 0px;"><tr><th>이름</th><th>시도</th><th>시군구</th><th>전화번호</th></tr></thead>'
+    result += '<tbody style="overflow:auto;">'
     $.each(data.list, function (index, item) {
-    result += '<tr class="table-light">'
+        //console.log(index);
+    result += '<tr class="table-light" onclick="onListClick('+index+')">'
     result += '<th scope="row">' + item.name + '</th>';
     result += '<td> ' + item.sido + '</td>';
     result += '<td> ' + item.gungu + '</td>';
@@ -160,48 +187,7 @@ $('document').ready(function() {
     result += '</div>'
 }
     $(".wrap").append(result);
+    sendMap(data.list);
 }
 
 
-    var firstzoom = 13;
-    var first = { lat: 37.4979462 ,lng: 127.025427 };
-
-
-    var mymap = L.map('mapid').setView(first, firstzoom);
-
-    function onListClick(mylat, mylng) {
-    alert("dd");
-    first = { lat: mylat, lng: mylng };
-    mymap = L.map('mapid').setView(first, firstzoom);
-    L.map('mapid').popupopen()
-    .autopanstart()
-    .zoomlevelsChange(7)
-    .addTo(mymap);
-}
-    function plusZoom(){
-    firstzoom = 16;
-}
-
-
-    L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '<a href="http://openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-    minZoom: 1,
-    maxZoom: 19,
-}).addTo(mymap);
-
-
-        var pnt = { lat: 37.4979462 ,lng: 127.025427 };
-        L.marker(pnt).addTo(mymap)
-        .bindPopup("<div><a ><br> </a></div>");
-
-    var popup = L.popup();
-
-    function onMapClick(e) {
-    popup
-        .setLatLng(e.latlng)
-        .setContent(e.latlng.toString())
-        .openOn(mymap);
-}
-
-
-    mymap.on('click', onMapClick);

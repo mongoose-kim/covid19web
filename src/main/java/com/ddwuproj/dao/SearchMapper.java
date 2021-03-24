@@ -13,7 +13,7 @@ import java.util.List;
 @Mapper
 public interface SearchMapper {
     public List<CarTriage> getCarTriageList(String sido, String gungu);
-    public List<Clinic> getClinicList(String sido, String gungu);
-    public List<Hospital> getHospitalList(String sido, String gungu);
+    public List<Clinic> getClinicList(String sido, String gungu, String collect);
+    public List<Hospital> getHospitalList(String sido, String gungu, String type);
     public List<Triage> getTriageList(String sido, String gungu);
 }

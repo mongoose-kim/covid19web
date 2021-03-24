@@ -22,12 +22,13 @@ public class MyRestController {
     SearchService searchService;
 
     @RequestMapping("/hos")
-    public Map<String,Object> hospital(@RequestParam(required = false, defaultValue = "")String sido, @RequestParam(required = false, defaultValue = "")String gungu){
+    public Map<String,Object> hospital(@RequestParam(required = false, defaultValue = "")String sido, @RequestParam(required = false, defaultValue = "")String gungu
+            , @RequestParam(required = false, defaultValue = "")String type){
         Map<String, Object> map = new HashMap<>();
         Object result = new String[]{sido, gungu};
 
         List<Hospital> list;
-            list = searchService.getHospitalList(sido, gungu);
+            list = searchService.getHospitalList(sido, gungu, type);
         map.put("result", result);
         map.put("list", list);
 
@@ -35,12 +36,13 @@ public class MyRestController {
     }
 
     @RequestMapping("/cli")
-    public Map<String,Object> clinic(@RequestParam(required = false, defaultValue = "")String sido, @RequestParam(required = false, defaultValue = "")String gungu){
+    public Map<String,Object> clinic(@RequestParam(required = false, defaultValue = "")String sido, @RequestParam(required = false, defaultValue = "")String gungu
+        , @RequestParam(required = false, defaultValue = "")String collect){
         Map<String, Object> map = new HashMap<>();
         Object result = new String[]{sido, gungu};
 
         List<Clinic> list;
-            list = searchService.getClinicList(sido, gungu);
+            list = searchService.getClinicList(sido, gungu, collect);
         map.put("result", result);
         map.put("list", list);
 
