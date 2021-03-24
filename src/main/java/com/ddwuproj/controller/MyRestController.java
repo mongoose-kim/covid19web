@@ -7,15 +7,16 @@ import com.ddwuproj.dto.Triage;
 import com.ddwuproj.service.SearchService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@org.springframework.web.bind.annotation.RestController
+@RestController
 @RequestMapping("/co")
-public class RestController {
+public class MyRestController {
 
     @Autowired
     SearchService searchService;
@@ -26,12 +27,7 @@ public class RestController {
         Object result = new String[]{sido, gungu};
 
         List<Hospital> list;
-        if(sido.equals("전체")) {
-            list = searchService.getAllHospital();
-        }
-        else {
             list = searchService.getHospitalList(sido, gungu);
-        }
         map.put("result", result);
         map.put("list", list);
 
@@ -44,12 +40,7 @@ public class RestController {
         Object result = new String[]{sido, gungu};
 
         List<Clinic> list;
-        if(sido.equals("전체")) {
-            list = searchService.getAllClinic();
-        }
-        else {
             list = searchService.getClinicList(sido, gungu);
-        }
         map.put("result", result);
         map.put("list", list);
 
@@ -62,12 +53,7 @@ public class RestController {
         Object result = new String[]{sido, gungu};
 
         List<Triage> list;
-        if(sido.equals("전체")) {
-            list = searchService.getAllTriage();
-        }
-        else {
             list = searchService.getTriageList(sido, gungu);
-        }
         map.put("result", result);
         map.put("list", list);
 
@@ -80,12 +66,7 @@ public class RestController {
         Object result = new String[]{sido, gungu};
 
         List<CarTriage> list;
-        if(sido.equals("전체")) {
-            list = searchService.getAllCarTriage();
-        }
-        else {
             list = searchService.getCarTriageList(sido, gungu);
-        }
         map.put("result", result);
         map.put("list", list);
 

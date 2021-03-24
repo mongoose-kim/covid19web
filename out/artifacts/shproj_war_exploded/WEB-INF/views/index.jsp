@@ -37,11 +37,11 @@
 
   <br>
 
-  <select name="sido" id="sido1">
-  </select>
-  <select name="gungu" id="gugun1"></select>
-  <br>
-  <button class="btn btn-secondary my-2 my-sm-0" id="searchBtn">Search</button>
+    <select name="sido" id="sido1">
+    </select>
+    <select name="gungu" id="gugun1"></select>
+    <br>
+    <button class="btn btn-secondary my-2 my-sm-0" id="searchBtn">Search</button>
 
 
 </div>
@@ -52,20 +52,6 @@
 
 <div class="wrap"></div>
 
-<c:set var="fplat" value="${list[0].lat}"/>
-<c:set var="fplng" value="${list[0].lng}"/>
-<table class="table table-hover">
-  <tbody>
-  <c:forEach var="list" items="${list}">
-    <tr class="table-light" onclick="onListClick(${list.lat}, ${list.lng})">
-      <th scope="row">${list.name}</th>
-      <td>${list.sido}</td>
-      <td>${list.gungu}</td>
-      <td>${list.tel}</td>
-    </tr>
-  </c:forEach>
-  </tbody>
-</table>
 <div style="float: left;">
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css"
         integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
@@ -75,8 +61,6 @@
           crossorigin=""></script>
 
   <div id="mapid" style="width: 1000px; height: 750px;"></div>
-
-
 </div>
 </body>
 </html>

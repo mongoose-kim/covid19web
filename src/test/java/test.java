@@ -14,12 +14,4 @@ public class test {
     @Autowired
     SearchService searchService;
 
-    @Test
-    public void getAllCarTriage(){
-        List<CarTriage> list = searchService.getAllCarTriage();
-
-        for (CarTriage a : list) {
-            System.out.println(a.getAddr());
-        }
-    }
 }
