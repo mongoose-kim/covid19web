@@ -13,7 +13,6 @@ public class CarTriage {
     private String tel;
     private String lng;
     private String lat;
-    private int category;
 
     public String getSido() {
         return sido;
@@ -93,13 +92,5 @@ public class CarTriage {
 
     public void setLat(String lat) {
         this.lat = lat;
-    }
-
-    public int getCategory() {
-        return category;
-    }
-
-    public void setCategory(int category) {
-        this.category = category;
     }
 }

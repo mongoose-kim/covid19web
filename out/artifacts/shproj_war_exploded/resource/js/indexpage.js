@@ -35,47 +35,96 @@ $('document').ready(function() {
 }
 });
         var category = 0;
+        var chkArray = [];
         if(category == 0) {
-            $("#sido1").hide();
-            $("#gugun1").hide();
+            allselhide();
+        }
+
+        function allselhide(){
+            $("#select").hide();
             $("#hostype").hide();
             $("#clitype").hide();
             $("#searchBtn").hide();
+            $("#triopen").hide();
+            $("#cliopen").hide();
+            $("#hospital-info").hide();
+            $("#clinic-info").hide();
         }
 
         function selshow(){
-            $("#sido1").show();
-            $("#gugun1").show();
+            $("#select").show();
             $("#searchBtn").show();
         }
+
+        function copen_chk() {
+            var obj_copen = [];
+            $('.copen').each(function(index){
+                if($(this).is(":checked")){
+                    obj_copen.push($(this).val());
+                }
+            });
+            chkArray = obj_copen;
+        }
+
+        function topen_chk() {
+            var obj_topen = [];
+            $('.topen').each(function(index){
+                if($(this).is(":checked")){
+                    obj_topen.push($(this).val());
+                }
+            });
+            chkArray = obj_topen;
+        }
+
+    $('#allcopen').change( function(){
+        var imChecked = $(this).is(":checked");
+        if(imChecked){
+            $('.copen').prop('checked',true);
+        } else {
+            $('.copen').prop('checked',false);
+        }
+    });
+
+    $('#alltopen').change( function(){
+        var imChecked = $(this).is(":checked");
+        if(imChecked){
+            $('.topen').prop('checked',true);
+        } else {
+            $('.topen').prop('checked',false);
+        }
+    });
+
     $('#hosBtn').on('click', function(){
+        allselhide();
         selshow();
-        category = 1;
         $("#hostype").show();
-        $("#clitype").hide();
-        changeCate(1);
+        $("#hospital-info").show();
+        category = 1;
+        changeCate(category);
     });
 
     $('#cliBtn').on('click', function(){
+        allselhide();
         selshow();
-        $("#hostype").hide();
+        $("#cliopen").show();
         $("#clitype").show();
+        $("#clinic-info").show();
         category = 2;
         changeCate(category);
     });
 
     $('#triBtn').on('click', function(){
+        allselhide();
         selshow();
-        $("#hostype").hide();
-        $("#clitype").hide();
+        $("#triopen").show();
         category = 3;
         changeCate(category);
     });
 
     $('#carBtn').on('click', function(){
+        allselhide();
         selshow();
-        $("#hostype").hide();
-        $("#clitype").hide();
+        $("#triopen").show();
         category = 4;
         changeCate(category);
     });
@@ -91,9 +140,16 @@ $('document').ready(function() {
         else if(category == 2){
             cate = "cli";
             params += "&collect=" + $("#collect option:selected").val();
+            copen_chk();
+            params += "&chkArray=" + chkArray;
+            //console.log(chkArray);
         }
-        else if(category == 3){cate = "tri";}
-        else if(category == 4){cate = "car";}
+        else if(category == 3){cate = "tri";
+            topen_chk();
+            params += "&chkArray=" + chkArray;}
+        else if(category == 4){cate = "car";
+            topen_chk();
+            params += "&chkArray=" + chkArray;}
         $.ajax({
             url: "co/" + cate + params,
             type: "GET",
@@ -101,10 +157,10 @@ $('document').ready(function() {
             dataType: "json",
             async:false,
             success: function(data){
-                resultHtml(data);
+                resultHtml(data, category);
             },
             error: function(){
-                alert("카테고리를 선택해주세요.");
+                alert("운영요일을 선택해주세요.");
             }
         });
     });
@@ -112,19 +168,20 @@ $('document').ready(function() {
 
 });
 
-    function setClassName(id) {
-    document.getElementById('hosBtn').className = 'btn btn-outline-primary';
-    document.getElementById('cliBtn').className = 'btn btn-outline-primary';
-    document.getElementById('triBtn').className = 'btn btn-outline-primary';
-    document.getElementById('carBtn').className = 'btn btn-outline-primary';
 
-    document.getElementById(id).className = 'btn btn-outline-primary active';
+    function setClassName(id) {
+    document.getElementById('hosBtn').className = 'btn btn-outline-primary btn-block';
+    document.getElementById('cliBtn').className = 'btn btn-outline-primary btn-block';
+    document.getElementById('triBtn').className = 'btn btn-outline-primary btn-block';
+    document.getElementById('carBtn').className = 'btn btn-outline-primary btn-block';
+
+    document.getElementById(id).className = 'btn btn-outline-primary btn-block active';
 }
 
     function changeCate(c){
         resetMap();
+
     $("#sido1 option:eq(0)").prop("selected", true);
-    var idx = $('option:selected',$(this)).index();
     $("option",$("#gugun1")).remove();
     $("#gugun1").append("<option value=''>구/군 선택</option>");
 
@@ -132,15 +189,24 @@ $('document').ready(function() {
 
     if(c == 1){
     setClassName('hosBtn');
+        $("#type option:eq(0)").prop("selected", true);
     cate = "hos";}
     else if(c == 2){
     setClassName('cliBtn');
+        $("#collect option:eq(0)").prop("selected", true);
+        $("input:checkbox[id='allcopen']").prop("checked", true).attr("checked", true);
+        $("input:checkbox[class='copen']").prop("checked", true).attr("checked", true);
+
     cate = "cli";}
     else if(c == 3){
     setClassName('triBtn');
+        $("input:checkbox[id='alltopen']").prop("checked", true).attr("checked", true);
+        $("input:checkbox[class='topen']").prop("checked", true).attr("checked", true);
     cate = "tri";}
     else if(c == 4){
     setClassName('carBtn');
+        $("input:checkbox[id='alltopen']").prop("checked", true).attr("checked", true);
+        $("input:checkbox[class='topen']").prop("checked", true).attr("checked", true);
     cate = "car";}
 
     $.ajax({
@@ -150,8 +216,7 @@ $('document').ready(function() {
     dataType: "json",
     async:false,
     success: function(data){
-        resultHtml(data);
-        sendMap(data.list);
+        resultHtml(data, c);
 },
     error: function(){
     alert("Error");
@@ -159,35 +224,71 @@ $('document').ready(function() {
 });
 }
 
-    function resultHtml(data){
+/* 체크박스 하나라도 해제하면 전체 체크박스 자동해제*/
+function checkSelectAllT()  {
+    // 전체 체크박스
+    const checkboxes
+        = document.querySelectorAll('input[class="topen"]');
+    // 선택된 체크박스
+    const checked
+        = document.querySelectorAll('input[class="topen"]:checked');
+    // select all 체크박스
+    const selectAll
+        = document.querySelector('input[id="alltopen"]');
+
+    if(checkboxes.length === checked.length)  {
+        selectAll.checked = true;
+    }else {
+        selectAll.checked = false;
+    }
+}
+
+function checkSelectAllC()  {
+    // 전체 체크박스
+    const checkboxes
+        = document.querySelectorAll('input[class="copen"]');
+    // 선택된 체크박스
+    const checked
+        = document.querySelectorAll('input[class="copen"]:checked');
+    // select all 체크박스
+    const selectAll
+        = document.querySelector('input[id="allcopen"]');
+
+    if(checkboxes.length === checked.length)  {
+        selectAll.checked = true;
+    }else {
+        selectAll.checked = false;
+    }
+}
+
+
+    function resultHtml(data, c){
+        sendMap(data.list, c);
     $(".wrap").empty();
     var result = '';
-    result += data.result[0] + ' ' + data.result[1] + ' '
+    result += '<br><div class="table-text">' + data.result[0] + ' ' + data.result[1] + ' '
     result += '검색결과입니다.<br>'
-    result += data.list.length + '건이 조회되었습니다<br>'
+    result += data.list.length + '개가 조회되었습니다.<br>'
     if(data.list[0] == null){
     result += '<br> 조회된 결과가 없습니다.   <br>'
-}
+    }
     else {
-    result += '<div style="overflow:auto; width:780px; height:350px;">'
-    result += '<table class="table table-hover">'
-    result += '<thead style="position: sticky; top: 0px;"><tr><th>이름</th><th>시도</th><th>시군구</th><th>전화번호</th></tr></thead>'
-    result += '<tbody style="overflow:auto;">'
+    result += '<div class="tbl-header">'
+    result += '<table cellpadding="0" cellspacing="0" border="0">'
+    result += '<thead><tr><th>이름</th><th>주소</th><th>전화번호</th></tr></thead></table></div>'
+    result += '<div class="tbl-content"><div class="text-center"><table class="table table-hover"><tbody>'
     $.each(data.list, function (index, item) {
-        //console.log(index);
     result += '<tr class="table-light" onclick="onListClick('+index+')">'
-    result += '<th scope="row">' + item.name + '</th>';
-    result += '<td> ' + item.sido + '</td>';
-    result += '<td> ' + item.gungu + '</td>';
+    result += '<td>' + item.name + '</td>';
+    result += '<td> ' + item.addr + '</td>';
     result += '<td> ' + item.tel + '</td>';
     result += '</tr>'
 });
     result += '</tbody>'
     result += '</table>'
-    result += '</div>'
+    result += '</div></div></div>'
 }
     $(".wrap").append(result);
-    sendMap(data.list);
 }
 
 

@@ -37,12 +37,22 @@ public class MyRestController {
 
     @RequestMapping("/cli")
     public Map<String,Object> clinic(@RequestParam(required = false, defaultValue = "")String sido, @RequestParam(required = false, defaultValue = "")String gungu
-        , @RequestParam(required = false, defaultValue = "")String collect){
+        , @RequestParam(required = false, defaultValue = "")String collect, @RequestParam(required = false) String[] chkArray){
         Map<String, Object> map = new HashMap<>();
         Object result = new String[]{sido, gungu};
 
+        if(chkArray == null){
+            chkArray = new String[]{"openMo", "openTu","openWe","openTh","openFr","openSa","openSu"};
+        }
+        HashMap<String, Object> paraMap = new HashMap<>();
+        paraMap.put("sido", sido);
+        paraMap.put("gungu", gungu);
+        paraMap.put("collect", collect);
+        paraMap.put("array", chkArray);
+
+
         List<Clinic> list;
-            list = searchService.getClinicList(sido, gungu, collect);
+            list = searchService.getClinicList(paraMap);
         map.put("result", result);
         map.put("list", list);
 
@@ -50,12 +60,21 @@ public class MyRestController {
     }
 
     @RequestMapping("/tri")
-    public Map<String,Object> triage(@RequestParam(required = false, defaultValue = "")String sido, @RequestParam(required = false, defaultValue = "")String gungu){
+    public Map<String,Object> triage(@RequestParam(required = false, defaultValue = "")String sido, @RequestParam(required = false, defaultValue = "")String gungu
+            , @RequestParam(required = false) String[] chkArray){
         Map<String, Object> map = new HashMap<>();
         Object result = new String[]{sido, gungu};
 
+        if(chkArray == null){
+            chkArray = new String[]{"openWd","openSa","openSu"};
+        }
+        HashMap<String, Object> paraMap = new HashMap<>();
+        paraMap.put("sido", sido);
+        paraMap.put("gungu", gungu);
+        paraMap.put("array", chkArray);
+
         List<Triage> list;
-            list = searchService.getTriageList(sido, gungu);
+            list = searchService.getTriageList(paraMap);
         map.put("result", result);
         map.put("list", list);
 
@@ -63,12 +82,21 @@ public class MyRestController {
     }
 
     @RequestMapping("/car")
-    public Map<String,Object> cartriage(@RequestParam(required = false, defaultValue = "")String sido, @RequestParam(required = false, defaultValue = "")String gungu){
+    public Map<String,Object> cartriage(@RequestParam(required = false, defaultValue = "")String sido, @RequestParam(required = false, defaultValue = "")String gungu
+            , @RequestParam(required = false) String[] chkArray){
         Map<String, Object> map = new HashMap<>();
         Object result = new String[]{sido, gungu};
 
+        if(chkArray == null){
+            chkArray = new String[]{"openWd","openSa","openSu"};
+        }
+        HashMap<String, Object> paraMap = new HashMap<>();
+        paraMap.put("sido", sido);
+        paraMap.put("gungu", gungu);
+        paraMap.put("array", chkArray);
+
         List<CarTriage> list;
-            list = searchService.getCarTriageList(sido, gungu);
+            list = searchService.getCarTriageList(paraMap);
         map.put("result", result);
         map.put("list", list);
 

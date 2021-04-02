@@ -24,6 +24,6 @@ public class ViewController {
 
     @GetMapping
     public String main(){
-        return "index";
+        return "main";
     }
 }

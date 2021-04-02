@@ -16,7 +16,6 @@ public class Clinic {
     private String tel;
     private String lng;
     private String lat;
-    private int category;
 
 
     public String getCollect() {
@@ -139,11 +138,4 @@ public class Clinic {
         this.lat = lat;
     }
 
-    public int getCategory() {
-        return category;
-    }
-
-    public void setCategory(int category) {
-        this.category = category;
-    }
 }

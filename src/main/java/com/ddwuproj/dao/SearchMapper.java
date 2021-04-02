@@ -7,13 +7,14 @@ import com.ddwuproj.dto.Triage;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Component;
 
+import java.util.HashMap;
 import java.util.List;
 
 @Component
 @Mapper
 public interface SearchMapper {
-    public List<CarTriage> getCarTriageList(String sido, String gungu);
-    public List<Clinic> getClinicList(String sido, String gungu, String collect);
+    public List<CarTriage> getCarTriageList(HashMap<String,Object> paraMap);
+    public List<Clinic> getClinicList(HashMap<String,Object> paraMap);
     public List<Hospital> getHospitalList(String sido, String gungu, String type);
-    public List<Triage> getTriageList(String sido, String gungu);
+    public List<Triage> getTriageList(HashMap<String,Object> paraMap);
 }
