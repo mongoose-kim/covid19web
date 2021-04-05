@@ -26,4 +26,9 @@ public class ViewController {
     public String main(){
         return "main";
     }
+
+    @GetMapping("/guide")
+    public String guide(){
+        return "popuppage";
+    }
 }

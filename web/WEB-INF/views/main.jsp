@@ -93,7 +93,7 @@
 <a class="menu-toggle rounded" href="#">
     <i class="fas fa-bars" style="margin-bottom: 3px;"></i>
 </a>
-<nav id="sidebar-wrapper" style="height: 100vh;">
+<nav id="sidebar-wrapper" style="height: 100vh;overflow-y: auto; overflow-x: hidden;">
     <ul class="sidebar-nav">
         <li class="sidebar-brand">
             <a class="js-scroll-trigger" href="#page-top" style="color: #1b1e21"><img src="../../resource/img/logo.png" width="27"/> 코로나19 의료시설</a>

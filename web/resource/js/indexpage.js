@@ -34,12 +34,16 @@ $('document').ready(function() {
 });
 }
 });
+
+    window.open("guide","popup", "width=710, height=710, left=0, top=0");
+
         var category = 0;
         var chkArray = [];
         if(category == 0) {
             allselhide();
         }
 
+    /* 모든 선택옵션 안보이게*/
         function allselhide(){
             $("#select").hide();
             $("#hostype").hide();
@@ -56,6 +60,7 @@ $('document').ready(function() {
             $("#searchBtn").show();
         }
 
+    /* 체크박스 배열로 담기*/
         function copen_chk() {
             var obj_copen = [];
             $('.copen').each(function(index){
@@ -76,6 +81,7 @@ $('document').ready(function() {
             chkArray = obj_topen;
         }
 
+    /* 전체 누르면 체크박스 모두선택 */
     $('#allcopen').change( function(){
         var imChecked = $(this).is(":checked");
         if(imChecked){
@@ -129,7 +135,9 @@ $('document').ready(function() {
         changeCate(category);
     });
 
+    
     $('#searchBtn').on('click', function(){
+        $('.menu-toggle').click();
         var params = "?sido=" + $("#sido1 option:selected").val() +
             "&gungu=" + $("#gugun1 option:selected").val();
         var cate;
@@ -261,7 +269,7 @@ function checkSelectAllC()  {
     }
 }
 
-
+/* 조회 결과 테이블*/
     function resultHtml(data, c){
         sendMap(data.list, c);
     $(".wrap").empty();
@@ -269,25 +277,27 @@ function checkSelectAllC()  {
     result += '<br><div class="table-text">' + data.result[0] + ' ' + data.result[1] + ' '
     result += '검색결과입니다.<br>'
     result += data.list.length + '개가 조회되었습니다.<br>'
-    if(data.list[0] == null){
-    result += '<br> 조회된 결과가 없습니다.   <br>'
-    }
-    else {
     result += '<div class="tbl-header">'
     result += '<table cellpadding="0" cellspacing="0" border="0">'
     result += '<thead><tr><th>이름</th><th>주소</th><th>전화번호</th></tr></thead></table></div>'
     result += '<div class="tbl-content"><div class="text-center"><table class="table table-hover"><tbody>'
-    $.each(data.list, function (index, item) {
-    result += '<tr class="table-light" onclick="onListClick('+index+')">'
-    result += '<td>' + item.name + '</td>';
-    result += '<td> ' + item.addr + '</td>';
-    result += '<td> ' + item.tel + '</td>';
-    result += '</tr>'
-});
+    if(data.list[0] == null){
+        result += '<tr class="table-light" style="pointer-events: none;"><td></td></tr>'
+        result += '<tr class="table-light" style="pointer-events: none;"><td> 조회된 결과가 없습니다.   </td></tr>'
+        result += '<tr class="table-light" style="pointer-events: none;"><td></td></tr>'
+    }
+    else {
+        $.each(data.list, function (index, item) {
+            result += '<tr class="table-light" onclick="onListClick(' + index + ')">'
+            result += '<td>' + item.name + '</td>'
+            result += '<td> ' + item.addr + '</td>'
+            result += '<td> ' + item.tel + '</td>'
+            result += '</tr>'
+        });
+    }
     result += '</tbody>'
     result += '</table>'
     result += '</div></div></div>'
-}
     $(".wrap").append(result);
 }
 
